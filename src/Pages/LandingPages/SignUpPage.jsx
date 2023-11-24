@@ -7,12 +7,14 @@ import { BiLogoLinkedin } from "react-icons/bi";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import { updateProfile } from "firebase/auth";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 
 const SignUp = () => {
 
     const { UserGoogleLogin, UserRegitration } = useAuth();
     const navigate = useNavigate();
+    const axiosPublic = useAxiosPublic();
 
     const handleCreateUser = event => {
         event.preventDefault();
@@ -25,14 +27,19 @@ const SignUp = () => {
         UserRegitration(email, password)
             .then(userCredential => {
                 const user = userCredential.user;
+                const userinfo = { email: user?.email, name: name, role: "ordinary" };
                 if (user?.email) {
                     updateProfile(user, {
                         displayName: name,
                         photoURL: photo
                     })
                         .then(() => {
-                            toast.success("User created Successfuly....");
-                            navigate("/")
+                            axiosPublic.post('/users', userinfo)
+                                .then(res => {
+                                    console.log(res.data);
+                                    toast.success("User created Successfuly....");
+                                    navigate("/")
+                                })
                         })
                         .catch((error) => {
                             console.log(error);
@@ -50,9 +57,15 @@ const SignUp = () => {
         UserGoogleLogin()
             .then(result => {
                 const user = result.user;
-                console.log(user);
-                toast.success("Login Successful...");
-                navigate('/')
+
+                const userinfo = { email: user?.email, name: user?.displayName, role: "ordinary" }
+
+                axiosPublic.post('/users', userinfo)
+                    .then(res => {
+                        console.log(res.data);
+                        toast.success("Login Successfull!!!");
+                        navigate('/');
+                    })
 
             })
             .catch(error => {

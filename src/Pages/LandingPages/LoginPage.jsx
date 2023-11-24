@@ -8,13 +8,15 @@ import { FcGoogle } from "react-icons/fc";
 import { BiLogoLinkedin } from "react-icons/bi";
 import toast from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 
 const LoginPage = () => {
-    const { UserGoogleLogin } = useAuth();
+    const { UserGoogleLogin, UserLogIn } = useAuth();
     const [disabled, setDisabled] = useState(true);
     const capchaRef = useRef(null);
     const navigate = useNavigate();
+    const axiosPublic = useAxiosPublic();
 
     useEffect(() => {
         loadCaptchaEnginge(6)
@@ -36,17 +38,32 @@ const LoginPage = () => {
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-
-        console.log(email, password);
+        
+        UserLogIn(email, password)
+            .then(result => {
+                toast.success("Login Successful!!")
+                console.log(result.user);
+                navigate('/')
+            })
+            .catch(error => {
+                toast.error(`${error.message}`)
+                console.error(error);
+            })
     }
 
     const handleGoogleLogin = () => {
         UserGoogleLogin()
             .then(result => {
                 const user = result.user;
-                console.log(user);
-                toast.success("Login Successfull!!!");
-                navigate('/');
+                const userinfo = {email: user?.email, name: user?.displayName, role: "ordinary"}
+
+                axiosPublic.post('/users', userinfo )
+                .then(res =>{
+                    console.log(res.data);
+                    toast.success("Login Successfull!!!");
+                    navigate('/');
+                })
+                
             })
             .catch(error => {
                 console.error(error);

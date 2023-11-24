@@ -7,8 +7,10 @@ import profileImg from "../../assets/profile.png"
 
 
 const Navber = () => {
-    const { user, UserLogOut } = useAuth();
+    const { user, UserLogOut, userStatus } = useAuth();
     const navigate = useNavigate();
+    // console.log(userStatus);
+    const {isAdmin, isModerator} = userStatus;
 
 
     const navOptions = <>
@@ -58,7 +60,15 @@ const Navber = () => {
                         </label>
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                             <li className="ml-3 text-xl">{user?.displayName}</li>
-                            <li><Link to='/dashboard/adminHome'>DashBoard</Link></li>
+                            {
+                                user && isAdmin && <li><Link to='/dashboard/statistics'>DashBoard</Link></li>
+                            }
+                            {
+                                user && isModerator && <li><Link to='/dashboard/productReview'>DashBoard</Link></li>
+                            }
+                            {
+                                user && !isModerator && !isAdmin && <li><Link to='/dashboard/userProfile'>DashBoard</Link></li>
+                            }
                             <li onClick={handleLogOut}><a>Logout</a></li>
                         </ul>
                     </div> : <>
