@@ -2,16 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import loginImg from "../../assets/authentication.gif"
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaFacebookF } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { BiLogoLinkedin } from "react-icons/bi";
+import toast from "react-hot-toast";
+import useAuth from "../../Hooks/useAuth";
 
 
 const LoginPage = () => {
-
+    const { UserGoogleLogin } = useAuth();
     const [disabled, setDisabled] = useState(true);
     const capchaRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         loadCaptchaEnginge(6)
@@ -38,7 +41,17 @@ const LoginPage = () => {
     }
 
     const handleGoogleLogin = () => {
-        console.log("Hit Google Login")
+        UserGoogleLogin()
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                toast.success("Login Successfull!!!");
+                navigate('/');
+            })
+            .catch(error => {
+                console.error(error);
+                toast.error(`${error.message}`);
+            })
     }
 
     return (
