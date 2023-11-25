@@ -64,7 +64,7 @@ const Navber = () => {
                                 user && isAdmin && <li><Link to='/dashboard/adminStatistics'>DashBoard</Link></li>
                             }
                             {
-                                user && isModerator && <li><Link to='/dashboard/productReview'>DashBoard</Link></li>
+                                user && isModerator && <li><Link to='/dashboard/productsReview'>DashBoard</Link></li>
                             }
                             {
                                 user && !isModerator && !isAdmin && <li><Link to='/dashboard/userProfile'>DashBoard</Link></li>

@@ -12,6 +12,8 @@ import AddProductsPage from "../Pages/DashBoardPages/UserDashboardPages/AddProdu
 import MyProductsPage from "../Pages/DashBoardPages/UserDashboardPages/MyProductsPage";
 import ProductsReviewPage from "../Pages/DashBoardPages/ModeratorsPages/ProductsReviewPage";
 import RepotedProductsPage from "../Pages/DashBoardPages/ModeratorsPages/RepotedProductsPage";
+import ManageUsersPage from "../Pages/DashBoardPages/AdminDashboardPages/ManageUsersPage";
+import ManageCouponPage from "../Pages/DashBoardPages/AdminDashboardPages/ManageCouponPage";
 const router = createBrowserRouter([
     {
         path: '/',
@@ -62,6 +64,14 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/adminStatistics',
                 element: <StatisticsPage></StatisticsPage>
+            },
+            {
+                path: '/dashboard/users',
+                element: <ManageUsersPage></ManageUsersPage>
+            },
+            {
+                path: '/dashboard/manageCoupons',
+                element: <ManageCouponPage></ManageCouponPage>
             }
         ]
     },
