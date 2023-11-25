@@ -61,7 +61,7 @@ const Navber = () => {
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                             <li className="ml-3 text-xl">{user?.displayName}</li>
                             {
-                                user && isAdmin && <li><Link to='/dashboard/statistics'>DashBoard</Link></li>
+                                user && isAdmin && <li><Link to='/dashboard/adminStatistics'>DashBoard</Link></li>
                             }
                             {
                                 user && isModerator && <li><Link to='/dashboard/productReview'>DashBoard</Link></li>

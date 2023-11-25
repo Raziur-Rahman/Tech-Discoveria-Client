@@ -37,7 +37,7 @@ const AuthProvider = ({ children }) => {
 
     const UpdateProfile = ( obj ) =>{
         setLoading(true);
-        updateProfile(auth.currentUser, obj);
+        updateProfile(user, obj);
     }
 
 
@@ -80,7 +80,6 @@ const AuthProvider = ({ children }) => {
                 setUserStatus({isAdmin: false, isModerator: false})
                 setLoading(false);
             }
-            setLoading(false);
             
         })
         return () => {
