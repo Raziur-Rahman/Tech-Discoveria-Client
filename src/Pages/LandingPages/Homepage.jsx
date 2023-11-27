@@ -1,4 +1,6 @@
 import { Helmet } from "react-helmet-async";
+import FeaturedProducts from "../../Components/Home/FeaturedProducts";
+import TrendingProducts from "../../Components/Home/TrendingProducts";
 
 
 const Homepage = () => {
@@ -7,7 +9,8 @@ const Homepage = () => {
             <Helmet>
                 <title>Tech discoveria | Home Page</title>
             </Helmet>
-            <h1 className="text-7xl">This is Home page</h1>
+            <FeaturedProducts></FeaturedProducts>
+            <TrendingProducts></TrendingProducts>
         </div>
     );
 };

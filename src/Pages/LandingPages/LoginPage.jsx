@@ -24,11 +24,14 @@ const LoginPage = () => {
 
     const handlevalidate = () => {
         const captchaValue = capchaRef.current.value;
-        if (validateCaptcha(captchaValue, false)) {
-            setDisabled(false);
-        }
-        else {
-            setDisabled(true);
+        if(captchaValue.length >= 6){
+            if (validateCaptcha(captchaValue)) {
+                setDisabled(false);
+            }
+            else {
+                capchaRef.current.value = ''
+                setDisabled(true);
+            }
         }
 
     }
