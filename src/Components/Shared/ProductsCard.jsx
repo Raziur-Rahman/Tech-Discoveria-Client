@@ -1,18 +1,21 @@
+import moment from 'moment/moment';
 import PropTypes from 'prop-types';
 import { SlLike, SlDislike } from "react-icons/sl";
 import { Link } from 'react-router-dom';
 
+// <button>{moment().toISOString()}</button>
+
 const ProductsCard = ({ product }) => {
 
-    const {name, image, upvotes, downvotes, owner, _id} = product;
+    const {name, timestamp, image, upvotes, downvotes, owner, _id} = product;
 
     return (
-        <div className="flex relative flex-col max-w-lg p-6 space-y-6 overflow-hidden rounded-lg shadow-md dark:bg-gray-900 dark:text-gray-100">
+        <div className="flex relative flex-col max-w-lg p-6 space-y-6 overflow-hidden rounded-lg border border-yellow-500">
             <div className="flex space-x-4">
                 <img alt="" src={owner?.ownerImage} className="object-cover w-12 h-12 rounded-full shadow dark:bg-gray-500" />
                 <div className="flex flex-col space-y-1">
                     <a rel="noopener noreferrer" href="#" className="text-sm font-semibold">{owner.ownerName}</a>
-                    <span className="text-xs dark:text-gray-400">4 hours ago</span>
+                    <span className="text-xs dark:text-gray-400">{moment(timestamp).fromNow()}</span>
                 </div>
             </div>
             <div>
