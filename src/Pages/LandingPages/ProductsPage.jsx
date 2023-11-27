@@ -8,7 +8,7 @@ const ProductsPage = () => {
     const [products] = useProducts();
 
     return (
-        <div className="px-10 my-10">
+        <div className="px-5 lg:px-0 my-10">
             <Helmet>
                 <title>Tech Discoveria | Products </title>
             </Helmet>

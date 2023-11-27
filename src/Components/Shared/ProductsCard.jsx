@@ -2,25 +2,31 @@ import moment from 'moment/moment';
 import PropTypes from 'prop-types';
 import { SlLike, SlDislike } from "react-icons/sl";
 import { Link } from 'react-router-dom';
+import { FaTags } from "react-icons/fa";
 
 // <button>{moment().toISOString()}</button>
 
 const ProductsCard = ({ product }) => {
 
-    const {name, timestamp, image, upvotes, downvotes, owner, _id} = product;
+    const {name, timestamp, tags, image, upvotes, downvotes, owner, _id} = product;
 
     return (
-        <div className="flex relative flex-col max-w-lg p-6 space-y-6 overflow-hidden rounded-lg border border-yellow-500">
+        <div className="flex relative flex-col max-w-lg p-6 space-y-6 overflow-hidden rounded-lg border border-yellow-500 hover:scale-105 duration-500">
             <div className="flex space-x-4">
                 <img alt="" src={owner?.ownerImage} className="object-cover w-12 h-12 rounded-full shadow dark:bg-gray-500" />
                 <div className="flex flex-col space-y-1">
-                    <a rel="noopener noreferrer" href="#" className="text-sm font-semibold">{owner.ownerName}</a>
+                    <a rel="noopener noreferrer" href="#" className="text-sm font-semibold">{owner?.ownerName}</a>
                     <span className="text-xs dark:text-gray-400">{moment(timestamp).fromNow()}</span>
                 </div>
             </div>
             <div>
                 <img src={image} alt="" className="object-cover w-full mb-4 h-60 dark:bg-gray-500" />
-                <Link to={`/productsDetails/${_id}`}><h2 className="mb-1 text-xl font-semibold">{name}</h2></Link>
+                <Link to={`/product/${_id}`}><h2 className="mb-1 text-xl font-semibold">{name}</h2></Link>
+                <p className='flex gap-2'>
+                    {
+                        tags.slice(0,2).map((item, index ) => <span className='flex items-center justify-center border' key={index}><FaTags />{item}</span>)
+                    }
+                </p>
             </div>
             <div className="flex flex-wrap justify-between static bottom-0">
                 <div className="space-x-2">

@@ -14,6 +14,9 @@ import ProductsReviewPage from "../Pages/DashBoardPages/ModeratorsPages/Products
 import RepotedProductsPage from "../Pages/DashBoardPages/ModeratorsPages/RepotedProductsPage";
 import ManageUsersPage from "../Pages/DashBoardPages/AdminDashboardPages/ManageUsersPage";
 import ManageCouponPage from "../Pages/DashBoardPages/AdminDashboardPages/ManageCouponPage";
+import ProductDetails from "../Pages/LandingPages/ProductDetails";
+
+
 const router = createBrowserRouter([
     {
         path: '/',
@@ -28,6 +31,10 @@ const router = createBrowserRouter([
                 path: '/products',
                 element:<ProductsPage></ProductsPage>
             },
+            {
+                path: '/product/:id',
+                element: <ProductDetails></ProductDetails>
+            }
         ]
     },
 
