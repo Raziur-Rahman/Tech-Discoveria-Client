@@ -8,8 +8,6 @@ const FeaturedProducts = () => {
 
     const featuredProducts = products.filter(item => item.category === "Featured");
 
-    console.log(featuredProducts);
-
     return (
         <div className="px-5 lg:px-0">
             <SectionHeading heading={"Featured Products"} subHeading={"----Check Out----"}></SectionHeading>
