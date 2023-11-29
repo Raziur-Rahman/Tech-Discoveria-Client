@@ -7,6 +7,7 @@ import moment from "moment";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 const KeyCodes = {
     comma: 188,
     enter: 13
@@ -22,6 +23,7 @@ const AddProducts = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
     const [tags, setTags] = useState([]);
+    const navigate = useNavigate();
 
     const handleDelete = i => {
         setTags(tags.filter((tag, index) => index !== i));
@@ -65,22 +67,34 @@ const AddProducts = () => {
             }
         })
         if (res?.data?.success) {
-            const itemInfo = { name, owner, description, ExternalLink: link, timestamp, tags: tags2, status: "pending", category: "tech", image: res.data?.data?.display_url };
-            console.log(itemInfo);
-            const postRes = await axiosSecure.post('/newProducts', itemInfo);
+            const reviews = [];
+            const specifications = [
+                { name: "note", value: "this is fake spec" },
+                { name: 'Display', value: '14-inch 4K Dolby Vision HDR' },
+                { name: 'Processor', value: 'Intel Core i7 11th Gen' },
+                { name: 'Memory', value: 'Up to 32GB' },
+                { name: 'Storage', value: 'Up to 1TB SSD' }
+            ]
+
+            // creting data object
+            const itemInfo = { name, ownerEmail: email, owner, description, ExternalLink: link, timestamp, tags: tags2, status: "pending", category: "tech", image: res.data?.data?.display_url, upvotes: 0, downvotes: 0, reviews, specifications };
+
+            // post data to the database
+            const postRes = await axiosSecure.post('/userProducts', itemInfo);
             if (postRes?.data?.insertedId) {
                 Swal.fire({
                     title: "Success",
-                    text: "Your Food Item has Been Added",
+                    text: "Your Product is Post wait for the Moderator's Confirmation",
                     icon: "success"
                 });
-                // navigate(`/orderFood/${itemDetail.category}`);
+                navigate("/dashboard/myProducts");
 
             }
             console.log(postRes.data);
         }
-        // console.log(res?.data);
     }
+
+
 
     return (
         <>
@@ -110,13 +124,13 @@ const AddProducts = () => {
                                 <span className="label-text">Owner Name</span>
                             </label>
                             <input type="text" defaultValue={user?.displayName} name='ownerName'
-                                className="input input-bordered w-full" />
+                                className="input input-bordered w-full"  disabled/>
                         </div>
                         <div className="form-control w-full">
                             <label className="label">
                                 <span className="label-text">Owner Image</span>
                             </label>
-                            <input type="text" defaultValue={user?.photoURL} name="ownerImage" className="input input-bordered w-full" />
+                            <input type="text" defaultValue={user?.photoURL} name="ownerImage" className="input input-bordered w-full" disabled />
                         </div>
                     </div>
                     <div className="flex flex-col lg:flex-row gap-5 ">
@@ -125,7 +139,7 @@ const AddProducts = () => {
                                 <span className="label-text">Owner Email</span>
                             </label>
                             <input type="email" defaultValue={user?.email} placeholder="Email" name='email'
-                                className="input input-bordered w-full" />
+                                className="input input-bordered w-full" disabled />
                         </div>
                         <div className="form-control w-full ">
                             <label className="label">
@@ -153,9 +167,9 @@ const AddProducts = () => {
                     </div>
                     <div className="form-control w-full">
                         <label className="label">
-                            <span className="label-text">Short Description</span>
+                            <span className="label-text">Description</span>
                         </label>
-                        <input type="text" placeholder="Short Description" name="description" className="input input-bordered w-full" />
+                        <input type="text" placeholder="Short Description" name="description" className="input input-bordered w-full" required />
                     </div>
                     <input className="btn py-2 mt-4 bg-amber-700 text-white w-full hover:bg-amber-500" type="submit" value="ADD Product" />
                 </form>

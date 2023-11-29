@@ -4,8 +4,6 @@ import { SlLike, SlDislike } from "react-icons/sl";
 import { Link } from 'react-router-dom';
 import { FaTags } from "react-icons/fa";
 
-// <button>{moment().toISOString()}</button>
-
 const ProductsCard = ({ product }) => {
 
     const {name, timestamp, tags, image, upvotes, downvotes, owner, _id} = product;
@@ -41,14 +39,14 @@ const ProductsCard = ({ product }) => {
                         </svg>
                     </button>
                 </div>
-                <div className="flex space-x-2 text-sm dark:text-gray-400">
-                    <button type="button" className="flex items-center p-1 space-x-1.5">
+                <div className="flex space-x-2 dark:text-gray-400">
+                    <button type="button" className="flex items-center p-1 text-bold space-x-1.5">
                         <SlDislike className='text-blue-600' />
-                        <span>{downvotes?.length}</span>
+                        <span>{downvotes}</span>
                     </button>
-                    <button type="button" className="flex items-center p-1 space-x-1.5">
+                    <button type="button" className="flex items-center p-1 space-x-1.5 text-bold">
                         <SlLike className='text-blue-600' />
-                        <span>{upvotes?.length}</span>
+                        <span>{upvotes}</span>
                     </button>
                 </div>
             </div>

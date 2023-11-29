@@ -15,6 +15,7 @@ import RepotedProductsPage from "../Pages/DashBoardPages/ModeratorsPages/Repoted
 import ManageUsersPage from "../Pages/DashBoardPages/AdminDashboardPages/ManageUsersPage";
 import ManageCouponPage from "../Pages/DashBoardPages/AdminDashboardPages/ManageCouponPage";
 import ProductDetails from "../Pages/LandingPages/ProductDetails";
+import UpdateProductsPage from "../Pages/DashBoardPages/UserDashboardPages/UpdateProductsPage";
 
 
 const router = createBrowserRouter([
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/myProducts',
                 element: <MyProductsPage></MyProductsPage>
+            },
+            {
+                path: "/dashboard/updateProducts/:id",
+                element: <UpdateProductsPage></UpdateProductsPage>
             },
 
             // Moderators Routes

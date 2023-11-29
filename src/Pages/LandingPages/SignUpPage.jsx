@@ -27,7 +27,7 @@ const SignUp = () => {
         UserRegitration(email, password)
             .then(userCredential => {
                 const user = userCredential.user;
-                const userinfo = { email: user?.email, name: name, role: "ordinary" };
+                const userinfo = { email: user?.email, name: name, role: "ordinary", Membership:"Not Subscribed" };
                 if (user?.email) {
                     updateProfile(user, {
                         displayName: name,
@@ -58,7 +58,7 @@ const SignUp = () => {
             .then(result => {
                 const user = result.user;
 
-                const userinfo = { email: user?.email, name: user?.displayName, role: "ordinary" }
+                const userinfo = { email: user?.email, name: user?.displayName, role: "ordinary", Membership:"Not Subscribed" }
 
                 axiosPublic.post('/users', userinfo)
                     .then(res => {

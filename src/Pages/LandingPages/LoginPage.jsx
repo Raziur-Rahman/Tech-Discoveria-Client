@@ -58,7 +58,7 @@ const LoginPage = () => {
         UserGoogleLogin()
             .then(result => {
                 const user = result.user;
-                const userinfo = {email: user?.email, name: user?.displayName, role: "ordinary"}
+                const userinfo = {email: user?.email, name: user?.displayName, role: "ordinary", Membership:"Not Subscribed"};
 
                 axiosPublic.post('/users', userinfo )
                 .then(res =>{
