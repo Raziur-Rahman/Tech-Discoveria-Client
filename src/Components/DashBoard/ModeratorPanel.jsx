@@ -1,8 +1,25 @@
-import { NavLink } from "react-router-dom";
-import { FaHome, FaListAlt, FaSignOutAlt } from "react-icons/fa";
+import { NavLink, useNavigate } from "react-router-dom";
+import { FaHome, FaListAlt, FaPhoneAlt, FaSignOutAlt } from "react-icons/fa";
 import { FaListCheck } from "react-icons/fa6";
+import useAuth from "../../Hooks/useAuth";
+import toast from "react-hot-toast";
 
 const ModeratorPanel = () => {
+    const { UserLogOut } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogOut = () => {
+        UserLogOut()
+            .then(() => {
+                toast.success("User Logged Out Successful...")
+                navigate("/");
+            })
+            .catch((error) => {
+                console.error(error)
+                toast.error(`${error.message}`);
+            })
+    }
+
     return (
         <div>
             <h1 className="text-3xl">Moderator</h1>
@@ -13,7 +30,7 @@ const ModeratorPanel = () => {
                     </NavLink>
                 </li>
                 <li >
-                    <NavLink to="/dashboard/reportedProducts"> <FaListCheck /> ALL USERS</NavLink>
+                    <NavLink to="/dashboard/reportedProducts"> <FaListCheck /> Review Report </NavLink>
                 </li>
             </ul>
             <hr />
@@ -22,10 +39,10 @@ const ModeratorPanel = () => {
                     <NavLink to='/'> <FaHome />  Home </NavLink>
                 </li>
                 <li>
-                    <NavLink to='/contacts'>  Contact </NavLink>
+                    <NavLink to='/contacts'> <FaPhoneAlt />  Contact </NavLink>
                 </li>
                 <li>
-                    <button><FaSignOutAlt />  Log Out</button>
+                    <button onClick={handleLogOut}><FaSignOutAlt />  Log Out</button>
                 </li>
 
 

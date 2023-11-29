@@ -18,6 +18,7 @@ const useAxiosSecure = () => {
         return config;
     }, function (error) {
         return Promise.reject(error);
+        
     });
 
     // intercept 401 and 403 status

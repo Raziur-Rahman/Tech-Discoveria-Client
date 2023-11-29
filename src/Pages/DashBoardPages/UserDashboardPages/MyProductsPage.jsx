@@ -4,14 +4,15 @@ import useAuth from "../../../Hooks/useAuth";
 import { Helmet } from "react-helmet-async";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 
 const MyProductsPage = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
-    
-    const { data: Products = [] } = useQuery({
-        queryKey: ["Products", user?.email ],
+
+    const { data: Products = [], refetch } = useQuery({
+        queryKey: ["Products", user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/userProducts/${user?.email}`);
             return res.data;
@@ -19,8 +20,39 @@ const MyProductsPage = () => {
         }
     })
 
-    const handleDelete = id =>{
-        console.log(id);
+    const handleDelete = id => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const res = await axiosSecure.delete(`/userProducts/${id}`)
+                if (res.data.deletedCount) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Your file has been deleted...",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    refetch();
+                }
+            }
+            else {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your Product Is Safe",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
     }
 
     return (
@@ -30,7 +62,7 @@ const MyProductsPage = () => {
             </Helmet>
             <div className="bg-base-300 shadow-2xl p-5 rounded-lg">
                 <div className="flex justify-between items-center">
-                    <h1 className="text-2xl font-semibold">Total Orders: {Products.length}</h1>
+                    <h1 className="text-2xl font-semibold">Total Products: {Products.length}</h1>
                 </div>
                 <div className="overflow-x-auto w-full">
                     <table className="table mt-5 rounded-t-xl">
@@ -63,7 +95,7 @@ const MyProductsPage = () => {
                                     <th>
                                         <Link to={`/dashboard/updateProducts/${item._id}`}><button title="Update Product" className="btn btn-square bg-amber-500 text-xl text-white"><FaEdit></FaEdit></button></Link>
                                     </th>
-                                    <td><button onClick={()=> handleDelete(item._id)} className="btn btn-square text-xl bg-amber-500 text-white"><FaTrashAlt></FaTrashAlt></button></td>
+                                    <td><button onClick={() => handleDelete(item._id)} className="btn btn-square text-xl bg-amber-500 text-white"><FaTrashAlt></FaTrashAlt></button></td>
                                 </tr>)
                             }
                         </tbody>
