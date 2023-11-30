@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import SectionHeading from "../../Components/Shared/SectionHeading";
 import { FaTags } from "react-icons/fa";
 import { SlLike, SlDislike } from "react-icons/sl";

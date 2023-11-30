@@ -18,7 +18,7 @@ const ManageUsersPage = () => {
     const handleRoleChange = (id, role ) => {
         Swal.fire({
             title: "Are you sure?",
-            text: "You want to upgarde this user as admin?",
+            text: `You want to upgarde this user as ${role}?`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",

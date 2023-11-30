@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import loginImg from "../../assets/authentication.gif"
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { Helmet } from "react-helmet-async";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaFacebookF } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { BiLogoLinkedin } from "react-icons/bi";
@@ -17,6 +17,8 @@ const LoginPage = () => {
     const capchaRef = useRef(null);
     const navigate = useNavigate();
     const axiosPublic = useAxiosPublic();
+    const location = useLocation();
+    const from = location?.state?.from || '/';
 
     useEffect(() => {
         loadCaptchaEnginge(6)
@@ -46,7 +48,7 @@ const LoginPage = () => {
             .then(result => {
                 toast.success("Login Successful!!")
                 console.log(result.user);
-                navigate('/')
+                navigate(from)
             })
             .catch(error => {
                 toast.error(`${error.message}`)
@@ -64,7 +66,7 @@ const LoginPage = () => {
                 .then(res =>{
                     console.log(res.data);
                     toast.success("Login Successfull!!!");
-                    navigate('/');
+                    navigate(from);
                 })
                 
             })

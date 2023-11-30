@@ -16,6 +16,7 @@ import ManageUsersPage from "../Pages/DashBoardPages/AdminDashboardPages/ManageU
 import ManageCouponPage from "../Pages/DashBoardPages/AdminDashboardPages/ManageCouponPage";
 import ProductDetails from "../Pages/LandingPages/ProductDetails";
 import UpdateProductsPage from "../Pages/DashBoardPages/UserDashboardPages/UpdateProductsPage";
+import PrivateRoute from "./PrivateRoute";
 
 
 const router = createBrowserRouter([
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/product/:id',
-                element: <ProductDetails></ProductDetails>
+                element: <PrivateRoute><ProductDetails></ProductDetails></PrivateRoute>
             }
         ]
     },
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
     // DashBoard Routes
     {
         path: '/dashboard',
-        element: <DashBoard></DashBoard>,
+        element: <PrivateRoute><DashBoard></DashBoard></PrivateRoute>,
         children: [
             {
                 path: '/dashboard/userProfile',

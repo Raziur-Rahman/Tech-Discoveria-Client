@@ -1,22 +1,24 @@
 import moment from 'moment/moment';
 import PropTypes from 'prop-types';
 import { SlLike, SlDislike } from "react-icons/sl";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaTags } from "react-icons/fa";
 import useAuth from '../../Hooks/useAuth';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import toast from 'react-hot-toast';
 import useProducts from '../../Hooks/useProducts';
+import Swal from 'sweetalert2';
 
 const ProductsCard = ({ product }) => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [, refetch] = useProducts();
+    const navigate = useNavigate();
 
     const { name, timestamp, tags, image, upvotes, downvotes, owner, _id } = product;
 
     const handleUpdate = (id, str) => {
-        if (user) {
+        if (user && user?.email) {
             if (str === "upvote") {
                 axiosSecure.patch(`/products/${id}`, { key: str, upvotes: upvotes + 1 })
                     .then(res => {
@@ -49,6 +51,21 @@ const ProductsCard = ({ product }) => {
                         }
                     })
             }
+        }
+        else{
+            Swal.fire({
+                title: "You Are Not Logged In",
+                text: "Please login to add item to the cart",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Please"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/login', { state: { from: location.pathname } })
+                }
+            });
         }
     }
 
