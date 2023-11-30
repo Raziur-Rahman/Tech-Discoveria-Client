@@ -3,6 +3,7 @@ import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const ProductsReviewPage = () => {
 
@@ -18,8 +19,41 @@ const ProductsReviewPage = () => {
         }
     })
 
-    const handleReject = (id) => {
-        console.log("reject", id)
+    const handleUpdateStatus = (id, str) => {
+        if (user && user?.email) {
+            if (str === "Featured") {
+                axiosSecure.patch(`/products/${id}`, { key: str, category: "Featured" })
+                    .then(res => {
+                        console.log(res.data);
+                        if (res?.data?.modifiedCount) {
+                            toast.success("Thanks For Your Vote");
+                            refetch();
+                        }
+                    })
+
+            }
+            else if (str === "Accept") {
+                axiosSecure.patch(`/products/${id}`, { key: str, status: " Accepted" })
+                    .then(res => {
+                        console.log(res.data);
+                        if (res?.data?.modifiedCount) {
+                            toast.success("Product Status Updated Successfuly...");
+                            refetch();
+                        }
+                    })
+
+            }
+            else if (str === "Reject") {
+                axiosSecure.patch(`/products/${id}`, { key: str, status: "Rejected" })
+                    .then(res => {
+                        console.log(res.data);
+                        if (res?.data?.modifiedCount) {
+                            toast.success("Product Status Updated Successfuly...");
+                            refetch();
+                        }
+                    })
+            }
+        }
     }
 
     return (
@@ -57,13 +91,23 @@ const ProductsReviewPage = () => {
                                         <Link to={`/product/${item?.originalDoc?._id}`}><button title="Update Product" className="btn btn-outline">Details</button></Link>
                                     </td>
                                     <td>
-                                        <button title="Update Product" className="btn btn-active">Make Featured</button>
+                                        <button 
+                                        onClick={()=>handleUpdateStatus(item?.originalDoc?._id, "Featured")} 
+                                        disabled={item?.originalDoc?.status !== " Accepted" || item?.originalDoc?.category === "Featured" &&  true}
+                                        className="btn btn-active">Make Featured</button>
                                     </td>
                                     <th>
-                                        <button title="Update Product" className="btn btn-success">Accept</button>
+                                        <button 
+                                        disabled={item?.originalDoc?.status === " Accepted" && true}
+                                        onClick={()=>handleUpdateStatus(item?.originalDoc?._id, "Accept")} 
+                                        className="btn btn-success">Accept</button>
                                     </th>
                                     <td>
-                                        <button onClick={() => handleReject(item?.originalDoc?._id)} className="btn btn-error">Reject</button>
+                                        <button 
+                                        disabled={item?.originalDoc?.status === "Rejected" && true} 
+                                        onClick={()=>handleUpdateStatus(item?.originalDoc?._id, "Reject")} 
+                                        className="btn btn-error">
+                                            Reject</button>
                                     </td>
                                 </tr>)
                             }

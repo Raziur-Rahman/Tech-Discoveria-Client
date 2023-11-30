@@ -73,6 +73,7 @@ const MyProductsPage = () => {
                                     #
                                 </th>
                                 <th>Name</th>
+                                <th>Status</th>
                                 <th>UpVotes</th>
                                 <th>DownVotes</th>
                                 <th>Action</th>
@@ -87,6 +88,9 @@ const MyProductsPage = () => {
                                     </th>
                                     <td>
                                         {item?.name}
+                                    </td>
+                                    <td>
+                                        {item?.status}
                                     </td>
                                     <td>
                                         {item?.upvotes}

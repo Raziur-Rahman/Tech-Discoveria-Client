@@ -28,7 +28,8 @@ const ProductDetails = () => {
 
     const { name, timestamp, tags, image, upvotes, downvotes, owner, reviews, specifications, description, _id } = product;
 
-    const handleUpdate = (id, str) => {
+    // Vote And Report handled Here
+    const handleVoteReport = (id, str) => {
         if (user) {
             if (str === "upvote") {
                 axiosSecure.patch(`/products/${id}`, { key: str, upvotes: upvotes + 1 })
@@ -66,6 +67,33 @@ const ProductDetails = () => {
         }
     }
 
+    // Review Post
+
+    const handlePostReview = e => {
+        e.preventDefault();
+        const form = e.target;
+
+        const reviewerName = form.name.value;
+        const reviewerImage = form.photo.value;
+        const reviewDescription = form.description.value;
+        const timestamp = moment().toISOString();
+
+        const review = { reviewerName, reviewerImage, reviewDescription, timestamp, ratings: rating };
+
+        console.log([...reviews, review])
+
+        const updateReview = [...reviews, review];
+
+        axiosSecure.patch(`/products/${_id}`, { key: "review", reviews : updateReview } )
+            .then(res => {
+                console.log(res.data);
+                if (res?.data?.modifiedCount) {
+                    toast.success("Thanks For Your Vote");
+                    refetch();
+                }
+            })
+    }
+
     return (
         <div>
             <SectionHeading heading={"Products Details"}></SectionHeading>
@@ -87,9 +115,9 @@ const ProductDetails = () => {
                                     <span className="text-lg font-semibold">{item?.name}:</span> <span> {item?.value}</span>
                                 </p>)
                             }
-                            <button onClick={()=>handleUpdate(_id, "upvote")} className="btn btn-accent text-xl font-bold"><SlLike /> {upvotes}</button>
-                            <button onClick={()=>handleUpdate(_id, "downVote")} className="btn btn-error text-xl ml-10 font-bold"><SlDislike /> {downvotes}</button>
-                            <button onClick={()=>handleUpdate(_id, "Reported")} className="btn btn-error text-red-700 text-xl ml-10 font-bold">Report</button>
+                            <button onClick={() => handleVoteReport(_id, "upvote")} className="btn btn-accent text-xl font-bold"><SlLike /> {upvotes}</button>
+                            <button onClick={() => handleVoteReport(_id, "downVote")} className="btn btn-error text-xl ml-10 font-bold"><SlDislike /> {downvotes}</button>
+                            <button onClick={() => handleVoteReport(_id, "Reported")} className="btn btn-error text-red-700 text-xl ml-10 font-bold">Report</button>
 
                         </div>
 
@@ -116,7 +144,7 @@ const ProductDetails = () => {
             <Testimonials reviews={reviews}></Testimonials>
             <section className="px-28">
                 <SectionHeading heading={"Your Opinions Matter"} subHeading={"---Give Review---"}></SectionHeading>
-                <form className="w-full">
+                <form onSubmit={handlePostReview} className="w-full">
                     <div className="w-full flex justify-center items-center py-5">
                         <span className="text-3xl">Give Star Ratings: </span> <Rating
                             style={{ maxWidth: 180 }}
@@ -143,11 +171,10 @@ const ProductDetails = () => {
                         <label className="label">
                             <span className="label-text">Review Description</span>
                         </label>
-                        <textarea className="textarea textarea-bordered h-24" placeholder="Review Description"></textarea>
+                        <textarea name="description" className="textarea textarea-bordered h-24" placeholder="Review Description"></textarea>
                     </div>
-
                     <div className="form-control mt-6">
-                        <button className="btn btn-primary w-fit">Post Review</button>
+                        <button type="submit" className="btn btn-primary w-fit">Post Review</button>
                     </div>
 
                 </form>
