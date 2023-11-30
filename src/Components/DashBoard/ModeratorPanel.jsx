@@ -39,7 +39,7 @@ const ModeratorPanel = () => {
                     <NavLink to='/'> <FaHome />  Home </NavLink>
                 </li>
                 <li>
-                    <NavLink to='/contacts'> <FaPhoneAlt />  Contact </NavLink>
+                    <NavLink to='/contactsUs'> <FaPhoneAlt />  Contact </NavLink>
                 </li>
                 <li>
                     <button onClick={handleLogOut}><FaSignOutAlt />  Log Out</button>

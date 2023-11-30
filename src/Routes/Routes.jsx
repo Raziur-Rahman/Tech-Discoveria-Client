@@ -17,6 +17,7 @@ import ManageCouponPage from "../Pages/DashBoardPages/AdminDashboardPages/Manage
 import ProductDetails from "../Pages/LandingPages/ProductDetails";
 import UpdateProductsPage from "../Pages/DashBoardPages/UserDashboardPages/UpdateProductsPage";
 import PrivateRoute from "./PrivateRoute";
+import ContactUs from "../Components/Home/ContactUs";
 
 
 const router = createBrowserRouter([
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
             {
                 path: '/product/:id',
                 element: <PrivateRoute><ProductDetails></ProductDetails></PrivateRoute>
+            },
+            {
+                path: '/contactsUs',
+                element: <ContactUs></ContactUs>
             }
         ]
     },

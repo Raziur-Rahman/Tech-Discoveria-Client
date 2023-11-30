@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { RiCoupon3Fill } from "react-icons/ri";
 import { FcStatistics } from "react-icons/fc";
-import { FaHome, FaSignOutAlt, FaUsers } from "react-icons/fa";
+import { FaHome, FaPhoneAlt, FaSignOutAlt, FaUsers } from "react-icons/fa";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
 
@@ -43,7 +43,7 @@ const AdminPanel = () => {
                     <NavLink to='/'> <FaHome />  Home </NavLink>
                 </li>
                 <li>
-                    <NavLink to='/contacts'>  Contact </NavLink>
+                    <NavLink to='/contactsUs'><FaPhoneAlt></FaPhoneAlt>  Contact </NavLink>
                 </li>
                 <li>
                     <button onClick={handleLogOut}><FaSignOutAlt />  Log Out</button>

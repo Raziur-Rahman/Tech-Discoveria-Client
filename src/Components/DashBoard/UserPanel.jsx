@@ -42,7 +42,7 @@ const UserPanel = () => {
                     <NavLink to='/'> <FaHome />  Home </NavLink>
                 </li>
                 <li>
-                    <NavLink to='/contacts'> <FaPhoneAlt />  Contacts </NavLink>
+                    <NavLink to='/contactsUs'> <FaPhoneAlt />  Contacts </NavLink>
                 </li>
                 <li>
                     <button onClick={handleLogOut}><FaSignOutAlt />  Log Out</button>

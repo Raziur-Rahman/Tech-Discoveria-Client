@@ -93,6 +93,9 @@ const ProductDetails = () => {
                     refetch();
                 }
             })
+            
+
+        form.reset();
     }
 
     return (

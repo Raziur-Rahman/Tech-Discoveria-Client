@@ -8,6 +8,7 @@ import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 const KeyCodes = {
     comma: 188,
     enter: 13
@@ -89,6 +90,9 @@ const AddProducts = () => {
                 });
                 navigate("/dashboard/myProducts");
 
+            }
+            else{
+                toast.error(`${postRes?.data?.massage}`)
             }
             console.log(postRes.data);
         }
