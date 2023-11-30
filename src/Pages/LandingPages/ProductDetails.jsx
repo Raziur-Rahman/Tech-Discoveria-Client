@@ -89,7 +89,7 @@ const ProductDetails = () => {
             .then(res => {
                 console.log(res.data);
                 if (res?.data?.modifiedCount) {
-                    toast.success("Thanks For Your Vote");
+                    toast.success("Thanks For Your Reviews");
                     refetch();
                 }
             })

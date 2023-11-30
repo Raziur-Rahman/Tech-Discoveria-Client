@@ -1,8 +1,14 @@
-# React + Vite
+# Some Feature Of Tech Discoveria
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features OF My Project
++ In Home Page it have a ResPonsive Carousel
++ In products Page a search bar is implemneted, by using this you search products by their tags
++ Data is loaded with tanstack query, after any intaraction data will refetch by using tanstack query
++ Every Products card intaract able by user, user can upvote, downvote, report of any products
++ Dashboard Page are Private without log in user cannot go to dashboard routes
++ In User Profile page, User can buy memberShip and pay money
++ Without MemberShip User only add one Product
 
-Currently, two official plugins are available:
+## Live Site
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- __[Tech Discoveria](https://tech-discoveria.web.app/)__ - Take a tour of this Project

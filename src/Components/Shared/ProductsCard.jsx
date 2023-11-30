@@ -50,7 +50,7 @@ const ProductsCard = (props) => {
                     .then(res => {
                         console.log(res.data);
                         if (res?.data?.modifiedCount) {
-                            toast.success("Your Report is revied, Please wait for moderator review");
+                            toast.success("Your Report is reviewed, Please wait for moderator review");
                             refetch();
                             featureRef();
                             trendingRefetch();
@@ -62,7 +62,7 @@ const ProductsCard = (props) => {
         else{
             Swal.fire({
                 title: "You Are Not Logged In",
-                text: "Please login to add item to the cart",
+                text: "Please login to give your votes",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
