@@ -53,7 +53,7 @@ const AuthProvider = ({ children }) => {
                     const token = res?.data?.token;
                     if(token){
                         localStorage.setItem("access_token", token);
-                        axios.get(`http://localhost:5000/users/role/${currentUser?.email}`, {
+                        axios.get(`https://tech-discoveria-server.vercel.app/users/role/${currentUser?.email}`, {
                             headers: {
                                 authorization: `bearer ${token}`
                             }

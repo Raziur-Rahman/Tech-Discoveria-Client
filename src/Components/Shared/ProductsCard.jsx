@@ -6,13 +6,12 @@ import { FaTags } from "react-icons/fa";
 import useAuth from '../../Hooks/useAuth';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import toast from 'react-hot-toast';
-import useProducts from '../../Hooks/useProducts';
 import Swal from 'sweetalert2';
 
-const ProductsCard = ({ product }) => {
+const ProductsCard = (props) => {
+    const { product, refetch, featureRef, trendingRefetch } = props;
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
-    const [, refetch] = useProducts();
     const navigate = useNavigate();
 
     const { name, timestamp, tags, image, upvotes, downvotes, owner, _id } = product;
@@ -22,10 +21,13 @@ const ProductsCard = ({ product }) => {
             if (str === "upvote") {
                 axiosSecure.patch(`/products/${id}`, { key: str, upvotes: upvotes + 1 })
                     .then(res => {
-                        console.log(res.data);
                         if (res?.data?.modifiedCount) {
                             toast.success("Thanks For Your Vote");
                             refetch();
+                            featureRef();
+                            if(res.data){
+                                trendingRefetch()
+                            }
                         }
                     })
 
@@ -37,6 +39,8 @@ const ProductsCard = ({ product }) => {
                         if (res?.data?.modifiedCount) {
                             toast.success("Thanks For Your Vote");
                             refetch();
+                            featureRef();
+                            trendingRefetch();
                         }
                     })
 
@@ -48,6 +52,9 @@ const ProductsCard = ({ product }) => {
                         if (res?.data?.modifiedCount) {
                             toast.success("Your Report is revied, Please wait for moderator review");
                             refetch();
+                            featureRef();
+                            trendingRefetch();
+                            
                         }
                     })
             }
