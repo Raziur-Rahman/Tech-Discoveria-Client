@@ -30,7 +30,7 @@ const ModeratorPanel = () => {
                     </NavLink>
                 </li>
                 <li >
-                    <NavLink to="/dashboard/reportedProducts"> <FaListCheck /> Review Report </NavLink>
+                    <NavLink to="/dashboard/reportedProducts"> <FaListCheck /> Reported Contents</NavLink>
                 </li>
             </ul>
             <hr />

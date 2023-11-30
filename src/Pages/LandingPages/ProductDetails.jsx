@@ -9,23 +9,63 @@ import Testimonials from "../../Components/Home/Testimonials";
 import useAuth from "../../Hooks/useAuth";
 import { Rating } from "@smastrom/react-rating";
 import { useState } from "react";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 
 const ProductDetails = () => {
     const [rating, setRating] = useState(0);
     const params = useParams();
-    const axiosPublic = useAxiosPublic();
     const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
 
-    const { data: product = {} } = useQuery({
+    const { data: product = {}, refetch } = useQuery({
         queryKey: ["product", params.id],
         queryFn: async () => {
-            const res = await axiosPublic.get(`/products/${params?.id}`);
+            const res = await axiosSecure.get(`/products/${params?.id}`);
             return res.data;
         }
     })
 
-    const { name, timestamp, tags, image, upvotes, downvotes, owner, reviews, specifications, description } = product;
+    const { name, timestamp, tags, image, upvotes, downvotes, owner, reviews, specifications, description, _id } = product;
+
+    const handleUpdate = (id, str) => {
+        if (user) {
+            if (str === "upvote") {
+                axiosSecure.patch(`/products/${id}`, { key: str, upvotes: upvotes + 1 })
+                    .then(res => {
+                        console.log(res.data);
+                        if (res?.data?.modifiedCount) {
+                            toast.success("Thanks For Your Vote");
+                            refetch();
+                        }
+                    })
+
+            }
+            else if (str === "downVote") {
+                axiosSecure.patch(`/products/${id}`, { key: str, downvotes: downvotes + 1 })
+                    .then(res => {
+                        console.log(res.data);
+                        if (res?.data?.modifiedCount) {
+                            toast.success("Thanks For Your Vote");
+                            refetch();
+                        }
+                    })
+
+            }
+            else if (str === "Reported") {
+                console.log(str)
+                axiosSecure.patch(`/products/${id}`, { key: str, category: str })
+                    .then(res => {
+                        console.log(res.data);
+                        if (res?.data?.modifiedCount) {
+                            toast.success("Your Report is revied, Please wait for moderator review");
+                            refetch();
+                        }
+                    })
+            }
+        }
+    }
 
     return (
         <div>
@@ -48,8 +88,10 @@ const ProductDetails = () => {
                                     <span className="text-lg font-semibold">{item?.name}:</span> <span> {item?.value}</span>
                                 </p>)
                             }
-                            <button className="btn btn-accent text-xl font-bold"><SlLike /> {upvotes?.length}</button>
-                            <button className="btn btn-error text-xl ml-10 font-bold"><SlDislike /> {downvotes?.length}</button>
+                            <button onClick={()=>handleUpdate(_id, "upvote")} className="btn btn-accent text-xl font-bold"><SlLike /> {upvotes}</button>
+                            <button onClick={()=>handleUpdate(_id, "downVote")} className="btn btn-error text-xl ml-10 font-bold"><SlDislike /> {downvotes}</button>
+                            <button onClick={()=>handleUpdate(_id, "Reported")} className="btn btn-error text-red-700 text-xl ml-10 font-bold">Report</button>
+
                         </div>
 
                     </div>

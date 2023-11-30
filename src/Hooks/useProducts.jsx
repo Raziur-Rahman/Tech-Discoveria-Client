@@ -11,6 +11,7 @@ const useProducts = () => {
             const res = await axiosPublic.get('/products');
             return res.data;
         }
+        
     })
 
     return [products, refetch]

@@ -3,11 +3,54 @@ import PropTypes from 'prop-types';
 import { SlLike, SlDislike } from "react-icons/sl";
 import { Link } from 'react-router-dom';
 import { FaTags } from "react-icons/fa";
-import { MdReport } from "react-icons/md";
+import useAuth from '../../Hooks/useAuth';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import toast from 'react-hot-toast';
+import useProducts from '../../Hooks/useProducts';
 
 const ProductsCard = ({ product }) => {
+    const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
+    const [, refetch] = useProducts();
 
-    const {name, timestamp, tags, image, upvotes, downvotes, owner, _id} = product;
+    const { name, timestamp, tags, image, upvotes, downvotes, owner, _id } = product;
+
+    const handleUpdate = (id, str) => {
+        if (user) {
+            if (str === "upvote") {
+                axiosSecure.patch(`/products/${id}`, { key: str, upvotes: upvotes + 1 })
+                    .then(res => {
+                        console.log(res.data);
+                        if (res?.data?.modifiedCount) {
+                            toast.success("Thanks For Your Vote");
+                            refetch();
+                        }
+                    })
+
+            }
+            else if (str === "downVote") {
+                axiosSecure.patch(`/products/${id}`, { key: str, downvotes: downvotes + 1 })
+                    .then(res => {
+                        console.log(res.data);
+                        if (res?.data?.modifiedCount) {
+                            toast.success("Thanks For Your Vote");
+                            refetch();
+                        }
+                    })
+
+            }
+            else if (str === "Reported") {
+                axiosSecure.patch(`/products/${id}`, { key: str, category: str })
+                    .then(res => {
+                        console.log(res.data);
+                        if (res?.data?.modifiedCount) {
+                            toast.success("Your Report is revied, Please wait for moderator review");
+                            refetch();
+                        }
+                    })
+            }
+        }
+    }
 
     return (
         <div className="flex relative flex-col max-w-lg p-6 space-y-6 overflow-hidden rounded-lg border border-yellow-500 hover:scale-105 duration-500">
@@ -23,27 +66,22 @@ const ProductsCard = ({ product }) => {
                 <Link to={`/product/${_id}`}><h2 className="mb-1 text-xl font-semibold">{name}</h2></Link>
                 <p className='flex gap-2'>
                     {
-                        tags.slice(0,2).map((item, index ) => <span className='flex items-center justify-center border' key={index}><FaTags />{item}</span>)
+                        tags.slice(0, 2).map((item, index) => <span className='flex items-center justify-center border' key={index}><FaTags />{item}</span>)
                     }
                 </p>
             </div>
             <div className="flex flex-wrap justify-between items-center static bottom-0">
                 <div className="space-x-2">
-                    <button aria-label="Share this post" type="button" className="p-2 text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-4 h-4 fill-current dark:text-violet-400">
-                            <path d="M404,344a75.9,75.9,0,0,0-60.208,29.7L179.869,280.664a75.693,75.693,0,0,0,0-49.328L343.792,138.3a75.937,75.937,0,1,0-13.776-28.976L163.3,203.946a76,76,0,1,0,0,104.108l166.717,94.623A75.991,75.991,0,1,0,404,344Zm0-296a44,44,0,1,1-44,44A44.049,44.049,0,0,1,404,48ZM108,300a44,44,0,1,1,44-44A44.049,44.049,0,0,1,108,300ZM404,464a44,44,0,1,1,44-44A44.049,44.049,0,0,1,404,464Z"></path>
-                        </svg>
-                    </button>
-                    <button title='Report this post' aria-label="Report this post" type="button" className="p-2">
-                        <MdReport className='text-2xl' />
+                    <button title='Report this post' onClick={() => handleUpdate(_id, "Reported")} aria-label="Report this post" type="button" className=" text-red-600 btn btn-ghost">
+                        Report
                     </button>
                 </div>
                 <div className="flex space-x-2 dark:text-gray-400">
-                    <button type="button" className="flex items-center p-1 text-bold space-x-1.5">
+                    <button type="button" onClick={() => handleUpdate(_id, "downVote")} className="flex items-center border p-1 text-bold space-x-1.5">
                         <SlDislike className='text-blue-600' />
                         <span>{downvotes}</span>
                     </button>
-                    <button type="button" className="flex items-center p-1 space-x-1.5 text-bold">
+                    <button type="button" onClick={() => handleUpdate(_id, "upvote")} className="flex items-center border hover:bg-amber-300 p-1 space-x-1.5 text-bold">
                         <SlLike className='text-blue-600' />
                         <span>{upvotes}</span>
                     </button>

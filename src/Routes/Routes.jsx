@@ -16,7 +16,6 @@ import ManageUsersPage from "../Pages/DashBoardPages/AdminDashboardPages/ManageU
 import ManageCouponPage from "../Pages/DashBoardPages/AdminDashboardPages/ManageCouponPage";
 import ProductDetails from "../Pages/LandingPages/ProductDetails";
 import UpdateProductsPage from "../Pages/DashBoardPages/UserDashboardPages/UpdateProductsPage";
-import Payment from "../Pages/DashBoardPages/UserDashboardPages/Payment";
 
 
 const router = createBrowserRouter([
@@ -60,10 +59,6 @@ const router = createBrowserRouter([
             {
                 path: "/dashboard/updateProducts/:id",
                 element: <UpdateProductsPage></UpdateProductsPage>
-            },
-            {
-                path: '/dashboard/payments',
-                element: <Payment></Payment>
             },
 
             // Moderators Routes
