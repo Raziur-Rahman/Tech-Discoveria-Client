@@ -9,6 +9,20 @@
 + In User Profile page, User can buy memberShip and pay money
 + Without MemberShip User only add one Product
 
+## Technology I Have Used 
++ React Js
++ Express Js
++ Node Js
++ SweetAlert
+
+## Tools I Have Used
++ Firebase
++ VS Code
+
+## Database I have Used
++ Firebase
++ MongoDB Database
+
 ## Live Site
 
 - __[Tech Discoveria](https://tech-discoveria.web.app/)__ - Take a tour of this Project
