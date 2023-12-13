@@ -1,6 +1,26 @@
+import { useRef } from "react";
+import emailjs from '@emailjs/browser';
+import toast from "react-hot-toast";
 
 
 const ContactUs = () => {
+
+    const formRef = useRef();
+
+    const sendEmail = (e) => {
+        e.preventDefault();
+
+        emailjs.sendForm('service_fnuuvqr', 'template_pa96bbs', formRef.current, 'TiiOD0aCovLZ1O3HR')
+            .then((result) => {
+                console.log(result.text);
+                toast.success("Your Massage Sent Successfuly")
+            }, (error) => {
+                console.log(error.text);
+                toast.error("Something is wrong..")
+            });
+    };
+
+
     return (
         <div>
             <section className="bg-blue-50 dark:bg-slate-800 mt-5" id="contact" >
@@ -84,23 +104,24 @@ const ContactUs = () => {
                                 </ul>
                             </div>
                             <div className="card h-fit max-w-6xl p-5 md:p-12" id="form">
-                                <h2 className="mb-4 text-2xl font-bold">Ready to Get Started?</h2>
-                                <form id="contactForm">
+                                <h2 className="mb-4 text-2xl text-gray-500 font-bold">Ready to Get Started?</h2>
+                                <form id="contactForm" ref={formRef} onSubmit={sendEmail}>
                                     <div className="mb-6">
-                                        <div className="mx-0 mb-1 sm:mb-4">
+                                        <div className="mx-0 form-control mb-1 sm:mb-4">
                                             <div className="mx-0 mb-1 sm:mb-4">
-                                                <label htmlFor="name" className="pb-1 text-xs uppercase tracking-wider"></label><input type="text" id="name" autoComplete="given-name" placeholder="Your name" className="mb-2 w-full rounded-md border border-gray-400 py-2 pl-2 pr-4 shadow-md dark:text-gray-300 sm:mb-0" name="name" />
+                                                <label htmlFor="name" className="pb-1 text-xs uppercase tracking-wider"></label><input type="text" id="name" autoComplete="given-name" placeholder="Your name" className="mb-2 w-full rounded-md border border-gray-400 py-2 pl-2 pr-4 shadow-md dark:text-gray-300 sm:mb-0" name="from_name" />
                                             </div>
-                                            <div className="mx-0 mb-1 sm:mb-4">
+                                            <div className="mx-0 form-control mb-1 sm:mb-4">
                                                 <label htmlFor="email" className="pb-1 text-xs uppercase tracking-wider"></label>
-                                                <input type="email" id="email" autoComplete="email" placeholder="Your email address" className="mb-2 w-full rounded-md border border-gray-400 py-2 pl-2 pr-4 shadow-md dark:text-gray-300 sm:mb-0" name="email" />
+                                                <input type="email" id="email" autoComplete="email" placeholder="Your email address" className="mb-2 w-full rounded-md border border-gray-400 py-2 pl-2 pr-4 shadow-md dark:text-gray-300 sm:mb-0" name="from_email" />
                                             </div>
                                         </div>
-                                        <div className="mx-0 mb-1 sm:mb-4">
-                                            <label htmlFor="textarea" className="pb-1 text-xs uppercase tracking-wider"></label><textarea id="textarea" name="textarea" cols="30" rows="5" placeholder="Write your message..." className="mb-2 w-full rounded-md border border-gray-400 py-2 pl-2 pr-4 shadow-md dark:text-gray-300 sm:mb-0"></textarea>
+                                        <div className="mx-0 form-control mb-1 sm:mb-4">
+                                            <label htmlFor="textarea" className="pb-1 text-xs uppercase tracking-wider"></label>
+                                            <textarea id="textarea" name="message" cols="30" rows="5" placeholder="Write your message..." className="mb-2 w-full rounded-md border border-gray-400 py-2 pl-2 pr-4 text-black shadow-md dark:text-gray-300 sm:mb-0"></textarea>
                                         </div>
                                     </div>
-                                    <div className="text-center">
+                                    <div className="text-center form-control">
                                         <button type="submit" className="w-full bg-blue-800 text-white px-6 py-3 font-xl rounded-md sm:mb-0">Send Message</button>
                                     </div>
                                 </form>
