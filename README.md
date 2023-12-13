@@ -27,6 +27,9 @@
 + EmailJs
 + React-Helmet
 
+# Project Selling line:
++ Main Purpose of this project is aware people to  new and latest technology, It make easier to people to khow about latest technology from home.
+
 ## Database I have Used
 + Firebase
 + MongoDB Database
